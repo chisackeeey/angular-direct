@@ -18,12 +18,20 @@ export class FlagService {
     return this.store.select(selectBrowserBackFlag);
   }
 
-  reload() {
-    this.store.dispatch(FlagActions.reload());
+  reloadDo() {
+    this.store.dispatch(FlagActions.reloadDo());
   }
 
-  browserBack() {
-    this.store.dispatch(FlagActions.browserBack());
+  reloadUndo() {
+    this.store.dispatch(FlagActions.reloadUndo());
+  }
+
+  browserBackDo() {
+    this.store.dispatch(FlagActions.browserBackDo());
+  }
+
+  browserBackUndo() {
+    this.store.dispatch(FlagActions.browserBackUndo());
   }
 
   reset() {

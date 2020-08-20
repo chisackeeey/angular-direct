@@ -1,7 +1,11 @@
 import { createAction } from '@ngrx/store';
 
-export const reload = createAction('[Flag]Reload');
+export const reloadDo = createAction('[Flag]Reload Do');
 
-export const browserBack = createAction('[Flag]Browser Back');
+export const reloadUndo = createAction('[Flag]Reload Undo');
+
+export const browserBackDo = createAction('[Flag]Browser Back Do');
+
+export const browserBackUndo = createAction('[Flag]Browser Back Undo');
 
 export const reset = createAction('[Flag]Reset');

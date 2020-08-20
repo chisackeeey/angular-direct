@@ -17,7 +17,9 @@ export class qiitaEffects {
   getItem = createEffect(() =>
     this.actions$.pipe(
       ofType(QiitaActions.getItem),
-      switchMap(() => this.api.getItem().pipe(map(() => FlagActions.reload())))
+      switchMap(
+        () => this.api.getItem().pipe(map(() => FlagActions.reloadDo())) // 通信が成功したらリロードフラグを1に設定する
+      )
     )
   );
 }
