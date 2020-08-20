@@ -21,11 +21,20 @@ export interface OnBeforeunload {
 export class BeforeunloadGuard implements CanDeactivate<OnBeforeunload> {
   browserBackFlag: number;
 
-  constructor(private service: FlagService, private router: Router) {
+  constructor(
+    private service: FlagService,
+    private router: Router,
+    private location: Location
+  ) {
     this.browserBackFlag = 0;
   }
 
-  canDeactivate():
+  canDeactivate(
+    component: OnBeforeunload,
+    currentRoute: ActivatedRouteSnapshot,
+    currentState: RouterStateSnapshot,
+    nextState: RouterStateSnapshot
+  ):
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
     | boolean
@@ -65,15 +74,16 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    this.service.browserBackUndo(); // ブラウザバックフラグを0に設定する
+
     this.service
       .getReloadFlag()
       .pipe(first())
       .subscribe((result: number) => {
         this.reloadFlag = result;
       });
-    console.log('aaa' + this.reloadFlag);
-
     if (this.reloadFlag === 0) {
+      // リロードフラグが0の場合にエラー画面に飛ばす
       this.router.navigate(['/error']);
       return false;
     }
