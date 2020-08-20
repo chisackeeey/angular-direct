@@ -1,26 +1,28 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard, BeforeunloadGuard } from './guard/auth.guard';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'top', pathMatch: 'full' },
   {
-    path: 'hello',
-    loadChildren: () =>
-      import('./hello/hello.module').then((m) => m.HelloModule),
+    path: 'top',
+    loadChildren: () => import('./top/top.module').then((m) => m.TopModule),
   },
   {
-    path: 'counter',
+    path: 'qiita',
     loadChildren: () =>
-      import('./counter/counter.module').then((m) => m.CounterModule),
+      import('./qiita/qiita.module').then((m) => m.QiitaModule),
+    canDeactivate: [BeforeunloadGuard],
   },
   {
-    path: 'todolist',
-    loadChildren: () =>
-      import('./todolist/todolist.module').then((m) => m.TodolistModule),
+    path: 'end',
+    loadChildren: () => import('./end/end.module').then((m) => m.EndModule),
+    canActivate: [AuthGuard],
   },
   {
-    path: 'translate',
+    path: 'error',
     loadChildren: () =>
-      import('./translate/translate.module').then((m) => m.TranslateModule),
+      import('./error/error.module').then((m) => m.ErrorModule),
   },
 ];
 

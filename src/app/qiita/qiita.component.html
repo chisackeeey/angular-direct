@@ -1,0 +1,8 @@
+<ng-container *ngIf="loading$ | async">Loading...</ng-container>
+<ng-container *ngIf="!(loading$ | async)">
+  <div>
+    <p>通信処理ページ</p>
+    <a routerLink="/end"><button>次へ</button></a>
+    <p>{{ result$ | async }}</p>
+  </div>
+</ng-container>
