@@ -2,13 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, catchError, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 import { QiitaApiService } from '../api/qiita-api.service';
 import * as QiitaActions from './qiita.actions';
-
-import * as FlagActions from '../../state/flag/flag.actions';
 
 @Injectable({ providedIn: 'root' })
 export class qiitaEffects {
@@ -18,7 +15,12 @@ export class qiitaEffects {
     this.actions$.pipe(
       ofType(QiitaActions.getItem),
       switchMap(
-        () => this.api.getItem().pipe(map(() => FlagActions.reloadDo())) // 通信が成功したらリロードフラグを1に設定する
+        () =>
+          this.api.getItem().pipe(
+            map((result) => {
+              return QiitaActions.setResult({ result: result.length });
+            })
+          ) // 通信が成功したらリロードフラグを1に設定する
       )
     )
   );

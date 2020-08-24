@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { PlatformLocation } from '@angular/common';
+import { FlagService } from './state/flag/flag.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'angular-handson';
+  constructor(location: PlatformLocation, private service: FlagService) {
+    location.onPopState(() => {
+      this.service.browserBackDo();
+    });
+  }
 }

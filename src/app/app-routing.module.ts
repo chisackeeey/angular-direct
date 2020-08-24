@@ -18,6 +18,7 @@ const routes: Routes = [
     path: 'end',
     loadChildren: () => import('./end/end.module').then((m) => m.EndModule),
     canActivate: [AuthGuard],
+    canDeactivate: [BeforeunloadGuard],
   },
   {
     path: 'error',

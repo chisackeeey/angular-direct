@@ -1,40 +1,20 @@
 import { Injectable } from '@angular/core';
-import {
-  CanActivate,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  UrlTree,
-  CanDeactivate,
-  Router,
-} from '@angular/router';
+import { CanActivate, UrlTree, CanDeactivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { FlagService } from '../state/flag/flag.service';
 
-export interface OnBeforeunload {
-  // shouldConfirmOnBeforeunload: () => boolean;
-}
-
 @Injectable({
   providedIn: 'root',
 })
-export class BeforeunloadGuard implements CanDeactivate<OnBeforeunload> {
+export class BeforeunloadGuard implements CanDeactivate<any> {
   browserBackFlag: number;
 
-  constructor(
-    private service: FlagService,
-    private router: Router,
-    private location: Location
-  ) {
+  constructor(private service: FlagService, private router: Router) {
     this.browserBackFlag = 0;
   }
 
-  canDeactivate(
-    component: OnBeforeunload,
-    currentRoute: ActivatedRouteSnapshot,
-    currentState: RouterStateSnapshot,
-    nextState: RouterStateSnapshot
-  ):
+  canDeactivate():
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
     | boolean
@@ -46,12 +26,12 @@ export class BeforeunloadGuard implements CanDeactivate<OnBeforeunload> {
         this.browserBackFlag = result;
       });
     console.log(this.browserBackFlag);
-
     if (this.browserBackFlag === 1) {
+      // ブラウザバックフラグが1の場合にエラー画面に飛ばす
       this.router.navigate(['/error']);
-      return false;
+      this.service.browserBackUndo(); // ここでブラウザバックフラグ0にしないと無限ループする
+      sessionStorage.setItem('url', '/top');
     }
-
     return true;
   }
 }
@@ -66,26 +46,23 @@ export class AuthGuard implements CanActivate {
     this.reloadFlag = 0;
   }
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ):
+  canActivate():
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
     this.service.browserBackUndo(); // ブラウザバックフラグを0に設定する
-
     this.service
       .getReloadFlag()
       .pipe(first())
       .subscribe((result: number) => {
         this.reloadFlag = result;
       });
+    console.log(this.reloadFlag);
     if (this.reloadFlag === 0) {
       // リロードフラグが0の場合にエラー画面に飛ばす
       this.router.navigate(['/error']);
-      return false;
+      sessionStorage.setItem('url', '/top');
     }
 
     return true;

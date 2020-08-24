@@ -1,12 +1,12 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 export interface QiitaState {
-  result: string;
+  result: number;
   loading: boolean;
 }
 
 export const initialState: QiitaState = {
-  result: '',
+  result: 0,
   loading: false,
 };
 

@@ -1,7 +1,8 @@
 <ng-container *ngIf="loading$ | async">Loading...</ng-container>
 <ng-container *ngIf="!(loading$ | async)">
   <div>
-    <p>通信処理ページ</p>
+    <p>この画面の初期表示時に通信処理が発生する</p>
+    <p>この画面でブラウザバックしたらエラーページに飛ぶ</p>
     <a routerLink="/end"><button>次へ</button></a>
     <p>{{ result$ | async }}</p>
   </div>
