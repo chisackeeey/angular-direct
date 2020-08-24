@@ -16,7 +16,7 @@ export class QiitaComponent implements OnInit {
     this.service.getItem();
     this.result$ = this.service.getResult();
     this.loading$ = this.service.getLoading();
-    this.flagService.reloadDo();
+    this.flagService.reloadDo(); // 通信の成功に基づくので、リロードフラグを立てるのは本当はここじゃない場所が良い(どこがいいか分からない)
   }
 
   ngOnInit(): void {}
