@@ -30,7 +30,7 @@ export class BeforeunloadGuard implements CanDeactivate<any> {
       // ブラウザバックフラグが1の場合にエラー画面に飛ばす
       this.router.navigate(['/error']);
       this.service.browserBackUndo(); // ここでブラウザバックフラグ0にしないと無限ループする
-      sessionStorage.setItem('url', '/top');
+      sessionStorage.setItem('url', '/top'); // SessionStorageにエラー画面からの遷移先情報(トップ画面)を保存する
     }
     return true;
   }
@@ -62,7 +62,7 @@ export class AuthGuard implements CanActivate {
     if (this.reloadFlag === 0) {
       // リロードフラグが0の場合にエラー画面に飛ばす
       this.router.navigate(['/error']);
-      sessionStorage.setItem('url', '/top');
+      sessionStorage.setItem('url', '/top'); // SessionStorageにエラー画面からの遷移先情報(トップ画面)を保存する
     }
 
     return true;
